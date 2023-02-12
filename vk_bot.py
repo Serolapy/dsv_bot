@@ -1,13 +1,26 @@
 import vk_api
 import io
-from image import *
+from create_png.image import *
 import const
+import pandas as pd
 
 vk = vk_api.VkApi(token = const.token) #Авторизоваться как сообщество
 upload = vk_api.VkUpload(vk)
 
-vk.method('messages.send', {'user_id':161556052,'message':'Бот запущен', 'random_id': 0})
+#vk.method('messages.send', {'user_id':161556052,'message':'Бот запущен', 'random_id': 0})
 blockedUsers = []
+
+def start_bot(url):
+	for i in const.admin:
+		vk.method('messages.send', {'user_id':i,'message':f'Бот запущен\nURL для подключения {url}', 'random_id': 0})
+		
+def finish_bot():
+	#запись в файл заблокированных пользователей
+	with open("./logs/log.csv", "a", encoding="UTF-16") as file: 
+		file.write(str(blockedUsers)+'\n')
+	pd.read_csv("./logs/log.csv", sep=",", encoding="UTF-16").to_excel("./logs/result.xlsx", index=None)	
+	for i in const.admin:
+		vk.method('messages.send', {'user_id':i,'message':'Бот остановлен', 'random_id': 0})
 
 def get_id_by_userName(idsAndTags, name_case = 'dat'):
 	# получает на вход короткие ссылки и ID пользователей, возвращает user_id и имена в заданном падеже
@@ -106,5 +119,8 @@ def blockUser (sender_id, user_ids):
 		vk.method('messages.send', {'user_id':161556052,'message':f'Пользователь @id{user["user_id"]} ({user["name"]}) заблокирован', 'random_id': 0})
 		if sender_id != 161556052:
 			vk.method('messages.send', {'user_id':sender_id,'message':f'Пользователь @id{user["user_id"]} ({user["name"]}) заблокирован', 'random_id': 0})
+
+
+
 #blockUser(161556052, 161556052)
-send_valentinka(161556052, get_id_by_userName('vladi6008', 'dat'), 'Текст')
+#send_valentinka(161556052, get_id_by_userName('vladi6008', 'dat'), 'Текст')
