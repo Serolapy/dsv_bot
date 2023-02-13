@@ -56,7 +56,7 @@ class PostHandler:
             self.data_js['text']
             )
         with open("./logs/log.csv", "a", encoding="UTF-16") as file:
-            file.write(f"{date_now}, {self.save_log['userName']}, {self.save_log['id_sender']}, {self.save_log['text'].replace(",", "`")}, {self.save_log['id_get']}\n")
+            file.write(f"{date_now}, {self.save_log['userName']}, {self.save_log['id_sender']}, {self.save_log['text'].replace(',', '`')}, {self.save_log['id_get']}\n")
 
     def __finishBot(self):
         finish_bot()

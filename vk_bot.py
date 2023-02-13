@@ -7,7 +7,6 @@ import pandas as pd
 vk = vk_api.VkApi(token = const.token) #Авторизоваться как сообщество
 upload = vk_api.VkUpload(vk)
 
-#vk.method('messages.send', {'user_id':161556052,'message':'Бот запущен', 'random_id': 0})
 blockedUsers = []
 
 def start_bot(url):
@@ -42,7 +41,7 @@ def get_id_by_userName(idsAndTags, name_case = 'dat'):
 def send_valentinka(sender_id, usersList, text_valintinka):
 	global blockedUsers
 	if sender_id in blockedUsers:
-		vk.method("messages.send", {"user_id": sender_id, "message": "Вы заблокированы","random_id": 0})
+		vk.method("messages.send", {"user_id": sender_id, "message": "Вы заблокированы не можете отправлять валентинки!","random_id": 0})
 		return
 	if len(usersList) == 0:
 		vk.method("messages.send", {
@@ -89,14 +88,14 @@ def send_valentinka(sender_id, usersList, text_valintinka):
 	# 
 	text = ''
 	if len(successful_send_names) != 0:
-		text = text + 'Успешно отправлено '
+		text = text + '✅ Успешно отправлено '
 		for i in range(len(successful_send_names)):
 			text += successful_send_names[i]
 			if i != len(successful_send_names) - 1:
 				text += ', '
 		text += '\n\n'
 	if len(fail_send_names) != 0:
-		text = text + 'Возникла ошибка при отправке валентинок '
+		text = text + '❌ Возникла ошибка при отправке валентинок '
 		for i in range(len(fail_send_names)):
 			text += fail_send_names[i]
 			if i != len(fail_send_names) - 1:
@@ -114,13 +113,8 @@ def blockUser (sender_id, user_ids):
 	for user in get_id_by_userName(user_ids, "nom"):
 		blockedUsers.append(user["user_id"])
 
-		vk.method('messages.send', {'user_id':user["user_id"],'message':'Вы заблокированы. Н', 'random_id': 0})
+		vk.method('messages.send', {'user_id':user["user_id"],'message':'Вы были заблокированы.', 'random_id': 0})
 
-		vk.method('messages.send', {'user_id':161556052,'message':f'Пользователь @id{user["user_id"]} ({user["name"]}) заблокирован', 'random_id': 0})
-		if sender_id != 161556052:
-			vk.method('messages.send', {'user_id':sender_id,'message':f'Пользователь @id{user["user_id"]} ({user["name"]}) заблокирован', 'random_id': 0})
+		for i in const.admin:
+			vk.method('messages.send', {'user_id':i,'message':f'Пользователь @id{user["user_id"]} ({user["name"]}) заблокирован @id{sender_id} (им)', 'random_id': 0})
 
-
-
-#blockUser(161556052, 161556052)
-#send_valentinka(161556052, get_id_by_userName('vladi6008', 'dat'), 'Текст')
