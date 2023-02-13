@@ -20,13 +20,12 @@ class RequestHandler(BaseHTTPRequestHandler):
             self.end_headers()
 
             # Сохранение запроса.json в list 
-            get_data = json.loads(body)
-            end_data = {
-	"type" : int(get_data['type']),
-	"sender_id" : int(get_data['sender_id']),    #int - ID отправителя
-	"user_ids" : get_data['user_ids'],           #string - строка с ID и Тегами получателей
-	"text" : get_data['text']                    #string - текст валентинки 
-    }  
+            end_data = json.loads(body)
+            end_data['type'] = int(end_data['type'])
+            if "sender_id" in end_data:
+                end_data["sender_id"] = int(end_data['sender_id'])
+
+              
             print('GET-DATA: ', end_data)
             #создание объекта класса POST для отправки валентинок
             valentinka = PostHandler(end_data)
