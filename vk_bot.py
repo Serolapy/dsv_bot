@@ -50,6 +50,13 @@ def send_valentinka(sender_id, usersList, text_valintinka):
 			"random_id": 0
 		})
 		return
+	if len(text_valintinka) == 0:
+		vk.method("messages.send", {
+			"user_id": sender_id, 
+			"message": 'Вы не ввели текст или отправили то, что я не могу обработать( Сообщения не отправлены, попробуйте заново',
+			"random_id": 0
+		})
+		return
 
 	#
 	#	ТУТ ОБРАБОТКА КАРТИНКИ
