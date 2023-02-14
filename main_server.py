@@ -76,12 +76,7 @@ class PostHandler:
                 }
         except:
             print('Error writing log file')    
-        #i
-        # 
-        # self.save_log = {'userName': get_id_by_userName(self.data_js['sender_id'], 'nom')['name'], 
-        #                 'id_sender': self.data_js['sender_id'], 
-        #                 'text': self.data_js['text'], 
-        #                 'id_get':ids}
+
     def __str__(self):
         print('json информация: ', self.data_js)
 
@@ -93,8 +88,8 @@ class PostHandler:
             get_id_by_userName(self.data_js['user_ids'], 'dat'), #передача user_list для отправки
             self.data_js['text']
             )
-        # with open("./logs/log.csv", "a", encoding="UTF-16") as file:
-        #     file.write(f"{date_now}, {self.save_log['userName']}, {self.save_log['id_sender']}, {self.save_log['text'].replace(',', '`')}, {self.save_log['id_get']}\n")
+        with open("./logs/log.csv", "a", encoding="UTF-16") as file:
+            file.write(f"{date_now}, {self.save_log['userName']}, {self.save_log['id_sender']}, {self.save_log['text'].replace(',', '`')}, {self.save_log['id_get']}\n")
 
     def __finishBot(self):
         finish_bot()
